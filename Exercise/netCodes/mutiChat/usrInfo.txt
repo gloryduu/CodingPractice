@@ -1,0 +1,129 @@
+环境:
+Win10 + CentOS7虚机
+
+操作步骤:
+1.Win10打开5个终端，分别telnet到srv
+2.任选终端7输入: abcdefghijklmn
+3.任选终端7输入: Enter
+
+Notes:
+应该是telnet原因（交互式协议，信息需要实时发送刷新），字符串并不是完整的被发送出去的
+
+
+user门限测试，达到限制则关闭新连接
+[01:21:30][gloryd@centos7 version1]$ ./usr 127.0.0.1 8888
+[01:21:30]socket() success, new socket fd: 3
+[01:21:30]connect() success
+[01:21:30]poll() blocking...
+[01:21:30]poll() return, iPlRet = 1, cur poll event que size 2
+[01:21:30]astPlFd[0].fd = 0
+[01:21:30]astPlFd[].events = 1
+[01:21:30]astPlFd[].revents = 0
+[01:21:30]astPlFd[1].fd = 3
+[01:21:30]astPlFd[].events = 1
+[01:21:30]astPlFd[].revents = 1
+[01:21:30]cur usr con fd 0, revents 0
+[01:21:30]nothing happy
+[01:21:30]cur usr con fd 3, revents 1
+[01:21:30]usr 3 read ready, event POLLIN
+[01:21:30]read 35 bytes from usr 3
+[01:21:30]cur usr num up to limit, closing...write 35 bytes to usr 1
+[01:21:30]no more ready usr fd
+[01:21:30]poll() blocking...
+[01:21:30]poll() return, iPlRet = 1, cur poll event que size 2
+[01:21:30]astPlFd[0].fd = 0
+[01:21:30]astPlFd[].events = 1
+[01:21:30]astPlFd[].revents = 0
+[01:21:30]astPlFd[1].fd = 3
+[01:21:30]astPlFd[].events = 1
+[01:21:30]astPlFd[].revents = 1
+[01:21:30]cur usr con fd 0, revents 0
+[01:21:30]nothing happy
+[01:21:30]cur usr con fd 3, revents 1
+[01:21:30]usr 3 read ready, event POLLIN
+[01:21:30]read 0 bytes from usr 3
+[01:21:30]peer close, usr 3 closing...
+[01:21:30]exit
+
+
+
+
+[00:49:43][gloryd@centos7 version1]$ ./usr 127.0.0.1 8888         
+[00:49:43]socket() success, new socket fd: 3
+[00:49:43]connect() failed: Connection refused
+[00:49:49][gloryd@centos7 version1]$ ./usr 127.0.0.1 8888
+[00:49:49]socket() success, new socket fd: 3
+[00:49:49]connect() success
+[00:49:49]poll() blocking...
+[00:49:58]buzhidao
+[00:49:58]poll() return, iPlRet = 1, cur poll event que size 2
+[00:49:58]astPlFd[0].fd = 0
+[00:49:58]astPlFd[].events = 1
+[00:49:58]astPlFd[].revents = 1
+[00:49:58]astPlFd[1].fd = 3
+[00:49:58]astPlFd[].events = 1
+[00:49:58]astPlFd[].revents = 0
+[00:49:58]cur usr con fd 0, revents 1
+[00:49:58]usr 0 read ready, event POLLIN
+[00:49:58]read 9 bytes from usr 0
+[00:49:58]write 9 bytes to usr 3
+[00:49:58]no more ready usr fd
+[00:49:58]poll() blocking...
+[00:51:38]poll() return, iPlRet = 1, cur poll event que size 2
+[00:51:38]astPlFd[0].fd = 0
+[00:51:38]astPlFd[].events = 1
+[00:51:38]astPlFd[].revents = 0
+[00:51:38]astPlFd[1].fd = 3
+[00:51:38]astPlFd[].events = 1
+[00:51:38]astPlFd[].revents = 1
+[00:51:38]cur usr con fd 0, revents 0
+[00:51:38]nothing happy
+[00:51:38]cur usr con fd 3, revents 1
+[00:51:38]usr 3 read ready, event POLLIN
+[00:51:38]read 0 bytes from usr 3
+(blocking...)
+
+/* read ready */
+if (astPlFd[idx].revents & POLLIN)
+{
+	printf("usr %d read ready, event POLLIN\n", iCurUsrFd);
+	ssRcvMsgLen = splice(iCurUsrFd, NULL, aiPipeFd[1], NULL, USR_BUF_SIZE, 0);
+	printf("read %u bytes from usr %d\n", ssRcvMsgLen, iCurUsrFd);
+	if (FD_STDIN == iCurUsrFd)
+	{
+		ssSndMsgLen = splice(aiPipeFd[0], NULL, iUsrSock, NULL, USR_BUF_SIZE, 0);
+		printf("write %u bytes to usr %d\n", ssSndMsgLen, iUsrSock);
+	}
+	else if (iUsrSock == iCurUsrFd)
+	{
+		ssSndMsgLen = splice(aiPipeFd[0], NULL, FD_STDOUT, NULL, USR_BUF_SIZE, 0);
+		printf("write %u bytes to usr %d\n", ssSndMsgLen, FD_STDOUT);
+	}
+	else
+	{
+		assert(0);
+	}
+	iPlRet--;
+}
+
+
+
+
+收到群发消息
+[01:18:58]poll() blocking...
+[01:26:05]poll() return, iPlRet = 1, cur poll event que size 2
+[01:26:05]astPlFd[0].fd = 0
+[01:26:05]astPlFd[].events = 1
+[01:26:05]astPlFd[].revents = 0
+[01:26:05]astPlFd[1].fd = 3
+[01:26:05]astPlFd[].events = 1
+[01:26:05]astPlFd[].revents = 1
+[01:26:05]cur usr con fd 0, revents 0
+[01:26:05]nothing happy
+[01:26:05]cur usr con fd 3, revents 1
+[01:26:05]usr 3 read ready, event POLLIN
+[01:26:05]read 30 bytes from usr 3
+[01:26:05]Msg from usr 6:abcdrfghijklmn
+[01:26:05]write 30 bytes to usr 1
+[01:26:05]no more ready usr fd
+[01:26:05]poll() blocking...

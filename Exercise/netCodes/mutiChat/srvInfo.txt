@@ -1,0 +1,346 @@
+环境:
+Win10 + CentOS7虚机
+
+操作步骤:
+1.Win10打开5个终端，分别telnet到srv
+2.任选终端7输入: abcdefghijklmn
+3.任选终端7输入: Enter
+
+Notes:
+应该是telnet原因（交互式协议，信息需要实时发送刷新），字符串并不是完整的被发送出去的
+
+
+user门限测试，达到限制则关闭新连接
+[19:39:06]cur usr num up to limit 5, new con 9 closing...
+[19:39:06]no user con fd ready
+[19:39:06]poll() blocking...
+
+
+[18:38:08][gloryd@centos7 version1]$ gcc -o srv srvmain.c -std=c99
+[18:38:10][gloryd@centos7 version1]$ ./srv 192.168.1.21 8888
+[18:38:10]socket() success, new socket fd: 3
+[18:38:10]bind() success
+[18:38:10]listen() success
+[18:38:10]poll() blocking...
+[18:38:15]add new usr con 4 to poll, cur usr num 1
+[18:38:15]no user con fd ready
+[18:38:15]poll() blocking...
+[18:38:19]add new usr con 5 to poll, cur usr num 2
+[18:38:19]no user con fd ready
+[18:38:19]poll() blocking...
+[18:38:21]add new usr con 6 to poll, cur usr num 3
+[18:38:21]no user con fd ready
+[18:38:21]poll() blocking...
+[18:38:37]add new usr con 7 to poll, cur usr num 4
+[18:38:37]no user con fd ready
+[18:38:37]poll() blocking...
+[18:38:41]add new usr con 8 to poll, cur usr num 5
+[18:38:41]no user con fd ready
+[18:38:41]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 5, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 6, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 7, revent 1
+[18:39:20]usr 7 read ready, event POLLIN
+[18:39:20]read from usr 7 msg len 1, msg: a
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 4
+[18:39:20]write to usr 4 msg len 16: Msg from usr 7: a
+[18:39:20]cur usr con fd 5, revent 4
+[18:39:20]write to usr 5 msg len 16: Msg from usr 7: a
+[18:39:20]cur usr con fd 6, revent 4
+[18:39:20]write to usr 6 msg len 16: Msg from usr 7: a
+[18:39:20]cur usr con fd 7, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 8, revent 4
+[18:39:20]write to usr 8 msg len 16: Msg from usr 7: a
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 5, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 6, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 7, revent 1
+[18:39:20]usr 7 read ready, event POLLIN
+[18:39:20]read from usr 7 msg len 1, msg: b
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 4
+[18:39:20]write to usr 4 msg len 16: Msg from usr 7: b
+[18:39:20]cur usr con fd 5, revent 4
+[18:39:20]write to usr 5 msg len 16: Msg from usr 7: b
+[18:39:20]cur usr con fd 6, revent 4
+[18:39:20]write to usr 6 msg len 16: Msg from usr 7: b
+[18:39:20]cur usr con fd 7, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 8, revent 4
+[18:39:20]write to usr 8 msg len 16: Msg from usr 7: b
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 5, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 6, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 7, revent 1
+[18:39:20]usr 7 read ready, event POLLIN
+[18:39:20]read from usr 7 msg len 10, msg: cdefghijkl
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 4
+[18:39:20]write to usr 4 msg len 25: Msg from usr 7: cdefghijkl
+[18:39:20]cur usr con fd 5, revent 4
+[18:39:20]write to usr 5 msg len 25: Msg from usr 7: cdefghijkl
+[18:39:20]cur usr con fd 6, revent 4
+[18:39:20]write to usr 6 msg len 25: Msg from usr 7: cdefghijkl
+[18:39:20]cur usr con fd 7, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 8, revent 4
+[18:39:20]write to usr 8 msg len 25: Msg from usr 7: cdefghijkl
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 5, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 6, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 7, revent 1
+[18:39:20]usr 7 read ready, event POLLIN
+[18:39:20]read from usr 7 msg len 1, msg: m
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 4
+[18:39:20]write to usr 4 msg len 16: Msg from usr 7: m
+[18:39:20]cur usr con fd 5, revent 4
+[18:39:20]write to usr 5 msg len 16: Msg from usr 7: m
+[18:39:20]cur usr con fd 6, revent 4
+[18:39:20]write to usr 6 msg len 16: Msg from usr 7: m
+[18:39:20]cur usr con fd 7, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 8, revent 4
+[18:39:20]write to usr 8 msg len 16: Msg from usr 7: m
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 5, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 6, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 7, revent 1
+[18:39:20]usr 7 read ready, event POLLIN
+[18:39:20]read from usr 7 msg len 1, msg: n
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:20]cur usr con fd 4, revent 4
+[18:39:20]write to usr 4 msg len 16: Msg from usr 7: n
+[18:39:20]cur usr con fd 5, revent 4
+[18:39:20]write to usr 5 msg len 16: Msg from usr 7: n
+[18:39:20]cur usr con fd 6, revent 4
+[18:39:20]write to usr 6 msg len 16: Msg from usr 7: n
+[18:39:20]cur usr con fd 7, revent 0
+[18:39:20]other: Success
+[18:39:20]cur usr con fd 8, revent 4
+[18:39:20]write to usr 8 msg len 16: Msg from usr 7: n
+[18:39:20]no more user con fd ready
+[18:39:20]poll() blocking...
+[18:39:58]cur usr con fd 4, revent 0
+[18:39:58]other: Success
+[18:39:58]cur usr con fd 5, revent 0
+[18:39:58]other: Success
+[18:39:58]cur usr con fd 6, revent 0
+[18:39:58]other: Success
+[18:39:58]cur usr con fd 7, revent 1
+[18:39:58]usr 7 read ready, event POLLIN
+[18:39:58]read from usr 7 msg len 2, msg:
+[18:39:58]
+[18:39:58]no more user con fd ready
+[18:39:58]poll() blocking...
+[18:39:58]cur usr con fd 4, revent 4
+[18:39:58]write to usr 4 msg len 17: Msg from usr 7:
+[18:39:58]
+[18:39:58]cur usr con fd 5, revent 4
+[18:39:58]write to usr 5 msg len 17: Msg from usr 7:
+[18:39:58]
+[18:39:58]cur usr con fd 6, revent 4
+[18:39:58]write to usr 6 msg len 17: Msg from usr 7:
+[18:39:58]
+[18:39:58]cur usr con fd 7, revent 0
+[18:39:58]other: Success
+[18:39:58]cur usr con fd 8, revent 4
+[18:39:58]write to usr 8 msg len 17: Msg from usr 7:
+[18:39:58]
+[18:39:58]no more user con fd ready
+[18:39:58]poll() blocking...
+[18:41:47]cur usr con fd 4, revent 0
+[18:41:47]other: Success
+[18:41:47]cur usr con fd 5, revent 0
+[18:41:47]other: Success
+[18:41:47]cur usr con fd 6, revent 0
+[18:41:47]other: Success
+[18:41:47]cur usr con fd 7, revent 1
+[18:41:47]usr 7 read ready, event POLLIN
+[18:41:47]read from usr 7 msg len 2, msg:
+[18:41:47]
+[18:41:47]no more user con fd ready
+[18:41:47]poll() blocking...
+[18:41:47]cur usr con fd 4, revent 4
+[18:41:47]write to usr 4 msg len 17: Msg from usr 7:
+[18:41:47]
+[18:41:47]cur usr con fd 5, revent 4
+[18:41:47]write to usr 5 msg len 17: Msg from usr 7:
+[18:41:47]
+[18:41:47]cur usr con fd 6, revent 4
+[18:41:47]write to usr 6 msg len 17: Msg from usr 7:
+[18:41:47]
+[18:41:47]cur usr con fd 7, revent 0
+[18:41:47]other: Success
+[18:41:47]cur usr con fd 8, revent 4
+[18:41:47]write to usr 8 msg len 17: Msg from usr 7:
+[18:41:47]
+[18:41:47]no more user con fd ready
+[18:41:47]poll() blocking...
+
+
+Win10任选user4、user5关闭，srv输出信息如下:
+[18:42:51]poll() blocking...
+[18:55:40]cur usr con fd 4, revent 1
+[18:55:40]usr 4 read ready, event POLLIN
+[18:55:40]peer close, usr 4 closing...
+[18:55:40]no more user con fd ready
+[18:55:40]poll() blocking...
+[18:56:37]cur usr con fd 8, revent 0
+[18:56:37]other: Success
+[18:56:37]cur usr con fd 5, revent 1
+[18:56:37]usr 5 read ready, event POLLIN
+[18:56:37]peer close, usr 5 closing...
+[18:56:37]no more user con fd ready
+
+当关闭user6之后，srv输出信息如下:
+[18:56:37]poll() blocking...
+[18:58:40]cur usr con fd 8, revent 0
+[18:58:40]other: Success
+[18:58:40]cur usr con fd 7, revent 0
+[18:58:40]other: Success
+[18:58:40]cur usr con fd 6, revent 1
+[18:58:40]usr 6 read ready, event POLLIN
+[18:58:40]peer close, usr 6 closing...
+[18:58:40]no more user con fd ready
+[18:58:40]poll() blocking...
+之后user7,8开始刷屏，srv输出信息如下:
+[18:58:40]cur usr con fd 8, revent 0
+[18:58:40]other: Success
+[18:58:40]cur usr con fd 7, revent 0
+[18:58:40]other: Success
+[18:58:40]poll() blocking...
+[18:58:40]cur usr con fd 8, revent 0
+[18:58:40]other: Success
+[18:58:40]cur usr con fd 7, revent 0
+[18:58:40]other: Success
+[18:58:40]poll() blocking...
+...
+
+查看代码，问题出在更新poll事件数组出了问题:
+当关闭处于数组中间的user时，这里是user6，做了判断并没有对user6的事件信息赋值
+进一步导致随后不断触发user6的pollin事件，但此时代码中已经修改了处理user的loop上限为2，故user6事件一直未得到处理从而导致poll不断被唤醒
+因此导致刷屏信息
+/* other error or peer close(0 == iRecvMsgLen)*/
+else
+{
+	if (0 == iRecvMsgLen)
+	{
+		printf("peer close, usr %d closing...\n", iCurUsrFd);
+	}
+	else
+	{
+		perror("POLLIN error");
+	}
+
+	/* close cur usr con, update cur to last usr con and do again */
+	if (idx < uiUsrCnt)
+	{
+		astPlFd[idx]= astPlFd[uiUsrCnt];
+	}
+	idx--;
+	uiUsrCnt--;
+	close(iCurUsrFd);
+}
+
+
+另一处代码的问题是，处理poll的队列大小代码里并未随着user实时更新
+iPlRet = poll(astPlFd, POLL_EVENT_SIZE + 1, -1);
+
+
+由于poll事件队列未实时更新，导致请求队列中包含了已关闭的fd，进而引发POLLNVAL事件；
+而由于其得不到及时处理，进一步引发poll不断被唤醒，此处是真正的问题所在
+[20:19:52](gdb) p astPlFd
+[20:19:52]$9 = {{
+[20:19:52]    fd = 3,
+[20:19:52]    events = 1,
+[20:19:52]    revents = 0
+[20:19:52]  }, {
+[20:19:52]    fd = 8,
+[20:19:52]    events = 1,
+[20:19:52]    revents = 0
+[20:19:52]  }, {
+[20:19:52]    fd = 7,
+[20:19:52]    events = 1,
+[20:19:52]    revents = 0
+[20:19:52]  }, {
+[20:19:52]    fd = 6,
+[20:19:52]    events = 1,
+[20:19:52]    revents = 32
+[20:19:52]  }, {
+[20:19:52]    fd = 7,
+[20:19:52]    events = 1,
+[20:19:52]    revents = 0
+[20:19:52]  }, {
+[20:19:52]    fd = 8,
+[20:19:52]    events = 1,
+[20:19:52]    revents = 0
+[20:19:52]  }}
+
+
+解决了以上问题后，
+关闭user4终端串口，偶现如下事件信息并造成poll重复不唤醒，触发事件 POLLIN|POLLHUP|POLLERR
+[21:00:16]cur usr con fd 4, revent 25
+[21:00:16]usr 4 read ready, event POLLIN
+[21:00:16]catch EAGAIN | EWOULDBLOCK
+[21:00:16]no more user con fd ready
+[21:00:16]poll() blocking...
+[21:00:16]poll() blocking exit iPlRet:1
+[21:00:16]astPlFd[idx].fd = 3
+[21:00:16]astPlFd[idx].events = 1
+[21:00:16]astPlFd[idx].revents = 0
+[21:00:16]astPlFd[idx].fd = 4
+[21:00:16]astPlFd[idx].events = 1
+[21:00:16]astPlFd[idx].revents = 17
+[21:00:16]astPlFd[idx].fd = 5
+[21:00:16]astPlFd[idx].events = 1
+[21:00:16]astPlFd[idx].revents = 0
+[21:00:16]astPlFd[idx].fd = 6
+[21:00:16]astPlFd[idx].events = 1
+[21:00:16]astPlFd[idx].revents = 0
+[21:00:16]astPlFd[idx].fd = 7
+[21:00:16]astPlFd[idx].events = 1
+[21:00:16]astPlFd[idx].revents = 0
+[21:00:16]astPlFd[idx].fd = 8
+[21:00:16]astPlFd[idx].events = 1
+[21:00:16]astPlFd[idx].revents = 0
+[21:00:16]cur usr con fd 4, revent 17
+[21:00:16]usr 4 read ready, event POLLIN
+[21:00:16]catch EAGAIN | EWOULDBLOCK
+[21:00:16]no more user con fd ready
+[21:00:16]poll() blocking...
+...
+
+随后poll重复不唤醒，触发事件 POLLIN|POLLHUP
+
