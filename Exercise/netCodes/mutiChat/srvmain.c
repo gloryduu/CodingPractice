@@ -23,7 +23,7 @@
 #define LISTEN_QUE_SIZE     5
 #define POLL_EVENT_SIZE     5
 
-#define USR_SIZE            94024   //cat /proc/sys/fs/
+#define USR_FDSIZE          94024   //cat /proc/sys/fs/
 #define USR_BUF_SIZE        64
 #define MSG_HEAD_SIZE       32
 #define SND_MSGBLOCK_SIZE   2
@@ -96,14 +96,14 @@ int main(int argc, char *argv[])
     }
     printf("listen() success\n");
 
-    pstUsrConRcd = malloc(sizeof(USR_CONRCD_S) * USR_SIZE);
+    pstUsrConRcd = malloc(sizeof(USR_CONRCD_S) * USR_FDSIZE);
     if (NULL == pstUsrConRcd)
     {
         perror("malloc() failed");
         close(iSrvSock);
         return RET_ERR_MEM_NOTENOUGH;
     }
-    memset(pstUsrConRcd, 0, sizeof(USR_CONRCD_S) * USR_SIZE);
+    memset(pstUsrConRcd, 0, sizeof(USR_CONRCD_S) * USR_FDSIZE);
 
     /* init poll event */
     astPlFd[0].fd = iSrvSock;
