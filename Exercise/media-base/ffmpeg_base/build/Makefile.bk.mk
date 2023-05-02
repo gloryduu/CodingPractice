@@ -1,4 +1,4 @@
-
+TOP		= ../..
 
 FILE 	= $(notdir $(shell ls ./))
 SRCFILE	= $(filter %.c,$(FILE))
@@ -19,7 +19,7 @@ CC		= gcc
 #CFLAG 	= -g -lasound -lm -ldl -lstdc++ -lpthread -lxcb -lXext -lfdk-aac -lX11 -lXv -lx264 -lz #-lxcb-randr
 #20220618
 #--发现ffmpeg相关lib对应的pkgconfig.pc文件中有列出依赖的动态库,是否有方案可以自动将其转化为CFLAG?
-#pkg-config --libs --static libavdevice  --递归输出自身依赖的所以其他包信息,有较多重复项,需要进行优化
+#pkg-config --libs --static libavdevice  --递归输出自身依赖的所有其他包信息,有较多重复项,需要进行优化
 #-L/usr/local/ffmpeg/lib -L/usr/local/lib -L/usr/local/ffmpeg/lib -L/usr/local/lib -L/usr/local//lib -L/usr/local/lib -L/usr/local/ffmpeg/lib \
 #-lavdevice -lm -lxcb -lasound -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -lSDL2 -lXv -lX11 -lXext -lavfilter -pthread -lm -lswscale -lm -lpostproc -lm -lavformat -lm -lz -lavcodec -pthread -lm -lz -lfdk-aac -lspeex -lx264 -lx265 -lswresample -lm -lavutil -pthread -lm -lXv -lX11 -lXext
 
@@ -31,7 +31,7 @@ CC		= gcc
 CFLAG	+= -g -ldl
 CFLAG	+= $(shell pkg-config $(FFMPEGLIB) --cflags --libs)
 
-INCFILE += -I../include
+INCFILE += -I$(TOP)/include
 
 #REFLIB	= $(FFMPEGLIB)
 #REFLIB	+= $(shell ls /usr/lib/*.a)
@@ -44,7 +44,7 @@ $(TARGET):
 	@echo target:$(TARGET)
 	@echo ------------------------------------------------
 #	$(CC) -o $@ $(SRCFILE) $(INCFILE) -Wl,--start-group $(FFMPEGLIB) -Wl,--end-group $(REFLIB)  $(CFLAG)
-	$(CC) -o $@ $(SRCFILE) $(INCFILE) $(CFLAG)
+	$(CC) -o $@ $(SRCFILE) $(INCFILE) $(CFLAGS)
 all:$(TARGET)
 
 clean:

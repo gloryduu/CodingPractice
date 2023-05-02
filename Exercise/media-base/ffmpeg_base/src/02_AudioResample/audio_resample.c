@@ -1,4 +1,4 @@
-#include "ffmpeg_test.h"
+#include "ffmpeg_base.h"
 
 /*
 20220621
@@ -136,8 +136,6 @@ int main(int argc, char *argv[])
         }
 
         fwrite(dst_data[0], 1, dstLineSize, pfile);
-        fflush(pfile);
-
         av_log(NULL, AV_LOG_INFO, "write audio resample frame size[%u]\n", dstLineSize);
         dataInSize = 0;
     }
@@ -146,7 +144,7 @@ int main(int argc, char *argv[])
     iret = swr_convert(pstSwrCtx, dst_data, 512, NULL, 0);
     if (iret < 0)
     {
-        av_log(NULL, AV_LOG_ERROR, "swr_convert failed, no input data\n");
+        av_log(NULL, AV_LOG_INFO, "swr_convert failed, no input data\n");
     }
     else
     {
@@ -158,7 +156,7 @@ int main(int argc, char *argv[])
     fclose(pfile);
     avformat_close_input(&pstAVFmtCtx);
 
-    av_log(NULL, AV_LOG_INFO, "ffmpeg audioin test end\n");
+    av_log(NULL, AV_LOG_INFO, "ffmpeg audioResample test end\n");
 
     return 0;
 }
