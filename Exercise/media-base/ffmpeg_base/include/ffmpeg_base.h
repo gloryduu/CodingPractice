@@ -1,5 +1,5 @@
-#ifndef __FFMPEG_TEST_H__
-#define __FFMPEG_TEST_H__
+#ifndef __FFMPEG_BASE_H__
+#define __FFMPEG_BASE_H__
 
 #include <stdio.h>
 #include <errno.h>
@@ -11,5 +11,5 @@
 #include "libavcodec/avcodec.h"
 #include "libswresample/swresample.h"
 
-#endif //__FFMPEG_TEST_H__
+#endif //__FFMPEG_BASE_H__
 

@@ -1,4 +1,4 @@
-#include "ffmpeg_test.h"
+#include "ffmpeg_base.h"
 
 /*
 20220630
@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
     fclose(pfile);
     avformat_close_input(&pstAVFmtCtx);
 
-    av_log(NULL, AV_LOG_INFO, "ffmpeg audioin test end\n");
+    av_log(NULL, AV_LOG_INFO, "ffmpeg audioEnc test end\n");
 
     return 0;
 }
